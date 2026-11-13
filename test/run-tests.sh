@@ -4,7 +4,6 @@
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
-root=$(pwd)
 work=$(mktemp -d)
 trap 'rm -rf "$work"' EXIT
 
