@@ -98,7 +98,7 @@ jobs:
 
 ## Keys and safety
 
-- Use a key with only the scopes the job needs. Both examples above work with a read-only key: create one in the dashboard under Settings > API keys, or with `ayinbox auth login --scopes read-only` and `ayinbox key` on your machine.
+- Use a key with only the scopes the job needs. Both examples above work with a read-only key, which you can create in the dashboard under Settings > API keys.
 - Commands that send mail or start campaigns (`campaign start`, `campaign test`, `mailbox send`, `inbox reply`, `inbox compose`, `inbox approve-draft`, placement tests) refuse to run without `--yes`, because there is no terminal to confirm on. The action never adds `--yes` for you. Starting a campaign also needs a key with the `SEND_CAMPAIGNS` scope.
 - Pin the action to a release tag or a full commit SHA.
 
