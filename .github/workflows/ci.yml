@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: actionlint
+        uses: raven-actions/actionlint@v2
+      - name: shellcheck
+        run: shellcheck scripts/*.sh test/*.sh
+      - name: action.yml declares what the scripts use
+        run: |
+          set -euo pipefail
+          for key in command api-key version api-url; do
+            yq -e ".inputs.\"$key\"" action.yml >/dev/null
+          done
+          for key in stdout exit-code version; do
+            yq -e ".outputs.\"$key\"" action.yml >/dev/null
+          done
+          yq -e '.branding.icon and .branding.color' action.yml >/dev/null
+
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash test/run-tests.sh
